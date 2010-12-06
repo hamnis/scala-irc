@@ -15,7 +15,7 @@ import net.hamnaberg.scalairc._
 
 class Client private(private val connector: Connector, val listeners: List[MessageListener]) {
   private val reader = connector.reader
-  private val writer = connector.writer 
+  private implicit val writer = connector.writer 
   def login(user: User) = {
     try {
       println("Connected, now logging in.")
@@ -62,8 +62,6 @@ object Client {
     if (!connector.connect) {
       throw new IllegalStateException("Unable to connect to " + address)
     }
-    //val reader = new MessageReader(Source.fromInputStream(new Socket().getInputStream).getLines)
-    //val writer = new BufferedMessageWriter(new BufferedWriter(new OutputStreamWriter(new Socket().getOutputStream)))
 
     new Client(connector, listeners)
   }

@@ -11,5 +11,5 @@ import net.hamnaberg.scalairc.Message
  */
 
 trait MessageListener {
-  def onMessage(message: Message)
+  def onMessage(message: Message)(implicit writer:MessageWriter)
 }
