@@ -1,8 +1,9 @@
 package net.hamnaberg.scalairc.client
 
 import java.net.{SocketAddress, Socket}
-import io.Source
 import java.io.{BufferedWriter, OutputStreamWriter}
+import io.{Codec, Source}
+import java.nio.charset.CodingErrorAction
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +14,7 @@ import java.io.{BufferedWriter, OutputStreamWriter}
  */
 
 class SocketConnector(private val socket: Socket, private val address: SocketAddress, private val timeout: Int) extends Connector {
+  implicit val codec = Codec.default.onMalformedInput(CodingErrorAction.REPLACE)
   def connect = {
     socket.connect(address, timeout)
     socket.isConnected
