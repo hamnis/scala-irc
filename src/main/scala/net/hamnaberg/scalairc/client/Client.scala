@@ -68,6 +68,15 @@ object Client {
 
   def main(args: Array[String]) {
     val client = Client("arrakis.bouvet.no")
-    client.login(User("Ngarthl", "Erlend+Hamnaberg"))
+    client.login(User("Ngarthl", "Erlend Hamnaberg"))
+  }
+
+  object HEIJOINER extends MessageListener {
+    def onMessage(message: Message)(implicit writer: MessageWriter) = {
+      message match {
+        case Message(s, RPL_ENDOFMOTD, _) => writer.write(new Message(None, JOIN, List("#hei")))
+        case _ =>
+      }
+    }
   }
 }

@@ -23,17 +23,18 @@ object MessageParser {
       val parts = value.split(":", 2).toList
       val list = parts.headOption.map(x => x.split(" ").map(_.trim).toList).getOrElse(Nil)
       val remainder = parts.drop(1)
-      if (list.length == 1) {
-        return new Message(None, Command(list.head).get, remainder)
-      }
-      if (list.length >= 3) {
-        val server = new Server(list.head)
-        val nameable = list(1)
-        val command = Command(nameable).getOrElse(Status(nameable.toInt))
-        return new Message(Some(server), command, list.drop(2) ++ remainder)
-      }
-      else {
-        return null
+      list match {
+        case List(a) => new Message(None, Command(a).get, remainder)
+        case List(a, b) => {
+          val origin = Origin(a)
+          new Message(Some(origin), Command(b).get, remainder)
+        }
+        case List(a, b, _*) => {
+          val server = Origin(a)
+          val command = Command(b).getOrElse(Status(b.toInt))
+          new Message(Some(server), command, list.drop(2) ++ remainder)
+        }
+        case _ => throw new IllegalArgumentException(value)
       }
     }
   }

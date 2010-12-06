@@ -11,3 +11,13 @@ package net.hamnaberg.scalairc
 trait Origin {
   def name: String
 }
+
+object Origin {
+  def apply(origin: String) : Origin = {
+    origin match {
+      case x if (x contains "#") => new Channel(x)
+      case x if (x contains "!") => new Nick(x)
+      case x => new Server(x)
+    }
+  }
+}

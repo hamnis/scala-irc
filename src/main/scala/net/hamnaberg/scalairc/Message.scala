@@ -24,6 +24,8 @@ class Message(val origin: Option[Origin], val command: NameAndFormat, val argume
     builder.append(arguments.mkString(" "," ", "\r\n"))
     builder.toString
   }
+  
+  override def toString = "Message(%s, %s, %s)".format(origin, command, arguments)
 }
 
 case class Ping(override val arguments: List[String]) extends Message(None, PING, arguments)
