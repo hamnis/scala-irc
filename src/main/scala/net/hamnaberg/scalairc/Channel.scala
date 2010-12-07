@@ -8,4 +8,10 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-case class Channel(name: String) extends Origin
+class Channel private(val name: String) extends Origin
+
+object Channel {
+  def apply(name: String) = new Channel(if (name startsWith "#") name else "#" + name)
+
+  def unapply(channel: Channel) = Some(channel.name)
+}

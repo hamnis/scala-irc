@@ -56,7 +56,7 @@ class Client private(private val connector: Connector, val listeners: List[Messa
 }
 
 object Client {
-  def apply(host: String, port: Int = 6667, timeout: Int = 20000, listeners: List[MessageListener] = List(new MessagePrinter)) = {
+  def apply(host: String, port: Int = 6667, timeout: Int = 20000, listeners: List[MessageListener] = List(MessagePrinter)) = {
     val address = new InetSocketAddress(host, port)
     val connector = new SocketConnector(new Socket(), address, timeout)
     if (!connector.connect) {
@@ -67,16 +67,7 @@ object Client {
   }
 
   def main(args: Array[String]) {
-    val client = Client("arrakis.bouvet.no")
+    val client = Client("arrakis.bouvet.no", listeners = List(MessagePrinter, new Joiner(Channel("hei"))))
     client.login(User("Ngarthl", "Erlend Hamnaberg"))
-  }
-
-  object HEIJOINER extends MessageListener {
-    def onMessage(message: Message)(implicit writer: MessageWriter) = {
-      message match {
-        case Message(s, RPL_ENDOFMOTD, _) => writer.write(new Message(None, JOIN, List("#hei")))
-        case _ =>
-      }
-    }
   }
 }

@@ -10,6 +10,6 @@ import net.hamnaberg.scalairc.Message
  * To change this template use File | Settings | File Templates.
  */
 
-class MessagePrinter extends MessageListener {
+object MessagePrinter extends MessageListener {
   def onMessage(message: Message)(implicit writer:MessageWriter) = print(message.format)
 }
