@@ -4,7 +4,6 @@ import java.net.{SocketAddress, Socket}
 import java.io.{BufferedWriter, OutputStreamWriter}
 import io.{Codec, Source}
 import java.nio.charset.CodingErrorAction
-
 /**
  * Created by IntelliJ IDEA.
  * User: maedhros
@@ -13,8 +12,9 @@ import java.nio.charset.CodingErrorAction
  * To change this template use File | Settings | File Templates.
  */
 
-class SocketConnector(private val socket: Socket, private val address: SocketAddress, private val timeout: Int) extends Connector {
-  implicit val codec = Codec.default.onMalformedInput(CodingErrorAction.REPLACE)
+class SocketConnector(private val address: SocketAddress, private val timeout: Int, codec: Codec = Codec.default.onMalformedInput(CodingErrorAction.REPLACE)) extends Connector {
+  private val socket = new Socket()
+  
   def connect = {
     socket.connect(address, timeout)
     socket.isConnected
@@ -22,7 +22,7 @@ class SocketConnector(private val socket: Socket, private val address: SocketAdd
 
   def close = socket.close
 
-  lazy val reader = new MessageReader(Source.fromInputStream(socket.getInputStream).getLines)
+  lazy val reader = new MessageReader(Source.fromInputStream(socket.getInputStream)(codec).getLines)
 
   lazy val writer = new BufferedMessageWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream)))
 }

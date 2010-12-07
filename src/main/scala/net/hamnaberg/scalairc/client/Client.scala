@@ -1,8 +1,6 @@
 package net.hamnaberg.scalairc.client
 
-import java.net.{InetSocketAddress, Socket}
-import io.Source
-import java.io.{OutputStreamWriter, BufferedWriter}
+import java.net.{InetSocketAddress}
 import net.hamnaberg.scalairc._
 
 /**
@@ -58,7 +56,7 @@ class Client private(private val connector: Connector, val listeners: List[Messa
 object Client {
   def apply(host: String, port: Int = 6667, timeout: Int = 20000, listeners: List[MessageListener] = List(MessagePrinter)) = {
     val address = new InetSocketAddress(host, port)
-    val connector = new SocketConnector(new Socket(), address, timeout)
+    val connector = new SocketConnector(address, timeout)
     if (!connector.connect) {
       throw new IllegalStateException("Unable to connect to " + address)
     }
