@@ -8,7 +8,4 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-trait NameAndFormat {
-  def name : String
-  def format : String
-}
+trait NameAndFormat extends Name with Format

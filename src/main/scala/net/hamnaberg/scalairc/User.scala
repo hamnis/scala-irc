@@ -8,4 +8,6 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-case class User(nick: String, name: String, email: Option[Email] = None, invisible: Boolean = true) 
+case class User(nick: String, name: String, invisible: Boolean = true) {
+  def toMessage = new Message(None, USER, List(nick, name))
+}

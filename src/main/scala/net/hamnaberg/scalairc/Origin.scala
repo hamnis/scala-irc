@@ -8,9 +8,7 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-trait Origin {
-  def name: String
-}
+trait Origin extends Name
 
 object Origin {
   def apply(origin: String) : Origin = {

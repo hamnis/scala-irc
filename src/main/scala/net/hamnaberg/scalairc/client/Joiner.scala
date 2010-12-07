@@ -13,7 +13,7 @@ import net.hamnaberg.scalairc.{Channel, RPL_ENDOFMOTD, Message, JOIN}
 class Joiner(channel: Channel) extends MessageListener {
   def onMessage(message: Message)(implicit writer: MessageWriter) = {
     message match {
-      case Message(s, RPL_ENDOFMOTD, _) => writer.write(new Message(None, JOIN, List(channel.name)))
+      case Message(s, RPL_ENDOFMOTD, _, _) => writer.write(new Message(None, JOIN, List(channel.name)))
       case _ =>
     }
   }

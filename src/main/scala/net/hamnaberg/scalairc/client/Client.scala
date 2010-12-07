@@ -32,9 +32,9 @@ class Client private(private val connector: Connector, val listeners: List[Messa
   private def start() {
     for (message <- reader) {
       message match {
-        case Ping(List(y)) => {
+        case Ping(y) => {
           println("Answering to PING with a PONG")
-          writer.write(Pong(List(y)))
+          writer.write(Pong(y))
           println("Answered to PING with a PONG")
         }
         case x => listeners.foreach(_.onMessage(message))
@@ -46,8 +46,8 @@ class Client private(private val connector: Connector, val listeners: List[Messa
     for (message <- lines) {
       listeners.foreach(_.onMessage(message))
       message match {
-        case Message(_, RPL_MYINFO, _) => return true
-        case Message(_, ERR_NICKNAMEINUSE, _) => return false
+        case Message(_, RPL_MYINFO, _, _) => return true
+        case Message(_, ERR_NICKNAMEINUSE, _, _) => return false
         case _ =>
       }
     }

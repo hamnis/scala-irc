@@ -8,4 +8,4 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-case class Nick(name: String) extends Origin
+case class Nick(name: String) extends Origin with Target

@@ -3,9 +3,11 @@ package net.hamnaberg.scalairc
 /**
  * Created by IntelliJ IDEA.
  * User: maedhros
- * Date: Dec 1, 2010
- * Time: 4:59:06 PM
+ * Date: Dec 7, 2010
+ * Time: 12:43:06 PM
  * To change this template use File | Settings | File Templates.
  */
 
-case class Server(name: String) extends Origin with Target
+trait Name {
+  def name : String
+}
