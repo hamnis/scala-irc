@@ -8,7 +8,7 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-abstract sealed case class Command(name: String) extends NameAndFormat {
+abstract sealed class Command(val name: String) extends NameAndFormat {
   val format = name
 }
 
@@ -16,8 +16,10 @@ object Command {
   lazy val commands = findCommands()
   
   def apply(name:String) = {
-    commands.find(c => c.name == name)
+    commands.find(c => c.name.toLowerCase == name.toLowerCase)
   }
+
+  def unapply(command: Command) : Option[String] = Some(command.name)
 
   private def findCommands() = {
     Set(JOIN, PART, MODE, TOPIC, NAMES, LIST, PASS, USER, NICK, SERVER, OPER, QUIT, SQUIT, INVITE, KICK, VERSION, STATE,

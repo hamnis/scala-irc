@@ -19,11 +19,12 @@ object MessageParser {
 
   private class DefaultMessageParser extends MessageParser {
     def parse(source: String) : Message = {
-      val value = if (source.startsWith(":")) source.substring(1) else source
+      val hasOrigin = source.startsWith(":")
+      val value = (if (hasOrigin) source.substring(1) else source).trim
       val parts = value.split(":", 2).toList
       val message = parts match {
-        case List(a) => transform(extractParameters(a), None)
-        case List(a, b) => transform(extractParameters(a), Some(b))
+        case List(a) => transform(hasOrigin, extractParameters(a), None)
+        case List(a, b) => transform(hasOrigin, extractParameters(a), Some(b))
       }
       message match {
         case None => throw new IllegalArgumentException(value)
@@ -35,22 +36,22 @@ object MessageParser {
       Some(item).map(x => x.split(" ").map(_.trim).toList).getOrElse(Nil)
     }
 
-    private def transform(list: List[String], text: Option[String]) = {
+    private def transform(hasOrigin: Boolean, list: List[String], text: Option[String]) = {
       list match {
         case List(a) => Some(Message(None, Command(a).get, Nil, text))
-        case List(a, b) => {
+        case List(a, b) if (hasOrigin) => {
           val origin = Origin(a)
           val command = Command(b).getOrElse(Status(b.toInt))
-          command match {
-            case PING => println(origin); println(command); println(text)
-            case _ => 
-          }
           Some(Message(Some(origin), command, Nil, text))
         }
-        case List(a, b, _*) => {
+        case List(a, b, _*) if (hasOrigin) => {
           val server = Origin(a)
           val command = Command(b).getOrElse(Status(b.toInt))
           Some(Message(Some(server), command, list.drop(2), text))
+        }
+        case List(a, _*) => {
+          val command = Command(a).getOrElse(Status(a.toInt))
+          Some(Message(None, command, list.drop(1), text))
         }
         case _ => None
       }

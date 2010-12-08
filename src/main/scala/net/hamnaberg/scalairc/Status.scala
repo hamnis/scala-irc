@@ -8,7 +8,7 @@ package net.hamnaberg.scalairc
  * To change this template use File | Settings | File Templates.
  */
 
-case class Status(code: Int, name:String) extends NameAndFormat {
+abstract sealed class Status(val code: Int, val name:String) extends NameAndFormat {
   def format = {
     code match {
       case x if (x < 10) => "00" + x
@@ -22,7 +22,11 @@ object Status {
   lazy val statuses = load()
 
   def apply(code: Int) = {
-    statuses.find(x => x.code == code).getOrElse(new Status(code, "Unknown"))
+    statuses.find(x => x.code == code).getOrElse(new Unknown(code))
+  }
+
+  def unapply(status: Status) : Option[(Int, String)] = {
+    Some(status.code, status.name)
   }
 
   private def load() = {
@@ -49,6 +53,7 @@ object Status {
   }
 }
 
+case class Unknown(override val code: Int) extends Status(code, "Unkown")
 
 case object RPL_WELCOME extends Status(1, "RPL_WELCOME")
 case object RPL_YOURHOST extends Status(2, "RPL_YOURHOST")
