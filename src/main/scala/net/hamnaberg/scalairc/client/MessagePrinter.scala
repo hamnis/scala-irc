@@ -11,5 +11,5 @@ import net.hamnaberg.scalairc.Message
  */
 
 object MessagePrinter extends MessageListener {
-  def onMessage(message: Message)(implicit writer:MessageWriter) = print(message.format)
+  def onMessage(message: Message)(implicit writer: MessageWriter) = print(message.format)
 }

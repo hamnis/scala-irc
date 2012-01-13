@@ -1,6 +1,8 @@
 package net.hamnaberg.scalairc.client
 
-import net.hamnaberg.scalairc.{Channel, RPL_ENDOFMOTD, Message, JOIN}
+import net.hamnaberg.scalairc.{Channel, Message}
+import net.hamnaberg.scalairc.Command._
+import net.hamnaberg.scalairc.Status._
 
 /**
  * Created by IntelliJ IDEA.

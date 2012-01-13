@@ -11,7 +11,9 @@ import java.io.Closeable
  */
 
 trait Connector extends Closeable {
-  def connect : Boolean
+  def connect: Boolean
+
   def reader: MessageReader
+
   def writer: MessageWriter
 }

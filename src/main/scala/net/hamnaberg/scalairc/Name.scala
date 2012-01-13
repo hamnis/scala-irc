@@ -9,5 +9,5 @@ package net.hamnaberg.scalairc
  */
 
 trait Name {
-  def name : String
+  def name: String
 }

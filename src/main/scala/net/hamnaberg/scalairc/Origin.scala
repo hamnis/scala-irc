@@ -11,7 +11,7 @@ package net.hamnaberg.scalairc
 trait Origin extends Name
 
 object Origin {
-  def apply(origin: String) : Origin = {
+  def apply(origin: String): Origin = {
     origin match {
       case x if (x contains "#") => Channel(x)
       case x if (x contains "!") => new Nick(x)

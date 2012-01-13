@@ -9,5 +9,5 @@ package net.hamnaberg.scalairc
  */
 
 case class User(nick: String, name: String, invisible: Boolean = true) {
-  def toMessage = new Message(None, USER, List(nick, name))
+  def toMessage = new Message(None, Command.USER, List(nick, name))
 }

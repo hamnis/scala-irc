@@ -2,6 +2,8 @@ package net.hamnaberg.scalairc.client
 
 import java.net.{InetSocketAddress}
 import net.hamnaberg.scalairc._
+import Command._
+import Status._
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +15,8 @@ import net.hamnaberg.scalairc._
 
 class Client private(private val connector: Connector, val listeners: List[MessageListener]) {
   private val reader = connector.reader
-  private implicit val writer = connector.writer 
+  private implicit val writer = connector.writer
+
   def login(user: User) = {
     try {
       println("Connected, now logging in.")

@@ -9,22 +9,23 @@ package net.hamnaberg.scalairc
  */
 
 trait MessageParser {
-  def parse(source: String) : Message
+  def parse(source: String): Message
 }
 
 object MessageParser {
-  private val instance : MessageParser = new DefaultMessageParser()
+  private val instance: MessageParser = new DefaultMessageParser()
 
   def apply() = instance
 
   private class DefaultMessageParser extends MessageParser {
-    def parse(source: String) : Message = {
+    def parse(source: String): Message = {
       val hasOrigin = source.startsWith(":")
       val value = (if (hasOrigin) source.substring(1) else source).trim
       val parts = value.split(":", 2).toList
       val message = parts match {
         case List(a) => transform(hasOrigin, extractParameters(a), None)
         case List(a, b) => transform(hasOrigin, extractParameters(a), Some(b))
+        case Nil => None
       }
       message match {
         case None => throw new IllegalArgumentException(value)
@@ -57,4 +58,5 @@ object MessageParser {
       }
     }
   }
+
 }

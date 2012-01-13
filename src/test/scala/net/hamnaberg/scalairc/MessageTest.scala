@@ -1,7 +1,6 @@
 package net.hamnaberg.scalairc
 
-import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.FlatSpec
+import org.specs2.mutable.Specification
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,10 +10,13 @@ import org.scalatest.FlatSpec
  * To change this template use File | Settings | File Templates.
  */
 
-class MessageTest extends FlatSpec with ShouldMatchers {
-  "A Message" should "when parsed yield the same result" in {
-    val expected = "USER guest 0 * :Ronnie Reagan\r\n"
-    val actual = Message(expected).format
-    actual should equal (expected)
+class MessageTest extends Specification {
+  "A Message" should {
+	"when parsed yield the same result" in {
+	    val expected = "USER guest 0 * :Ronnie Reagan\r\n"
+	    val actual = Message(expected).format
+		actual must not be null
+	    actual shouldEqual(expected)
+	  }	
   }
-}
+}  

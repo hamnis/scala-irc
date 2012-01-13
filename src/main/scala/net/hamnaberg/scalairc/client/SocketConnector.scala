@@ -4,6 +4,7 @@ import java.net.{SocketAddress, Socket}
 import java.io.{BufferedWriter, OutputStreamWriter}
 import io.{Codec, Source}
 import java.nio.charset.CodingErrorAction
+
 /**
  * Created by IntelliJ IDEA.
  * User: maedhros
@@ -14,7 +15,7 @@ import java.nio.charset.CodingErrorAction
 
 class SocketConnector(private val address: SocketAddress, private val timeout: Int, codec: Codec = Codec.default.onMalformedInput(CodingErrorAction.REPLACE)) extends Connector {
   private val socket = new Socket()
-  
+
   def connect = {
     socket.connect(address, timeout)
     socket.isConnected
